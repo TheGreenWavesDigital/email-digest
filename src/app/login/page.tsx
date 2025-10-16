@@ -16,7 +16,6 @@ export default function AuthForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form Data:", formData);
-    // TODO: add API call to handle signup/login
   };
 
   return (
