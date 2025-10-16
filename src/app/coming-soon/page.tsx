@@ -3,34 +3,34 @@
 import React, { useState, useEffect } from "react";
 
 export default function ComingSoon() {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
+  // const [timeLeft, setTimeLeft] = useState({
+  //   days: 0,
+  //   hours: 0,
+  //   minutes: 0,
+  //   seconds: 0,
+  // });
 
-  useEffect(() => {
-    const targetDate = new Date("2025-12-01T00:00:00"); // launch date
+  // useEffect(() => {
+  //   const targetDate = new Date("2025-12-01T00:00:00"); // launch date
 
-    const interval = setInterval(() => {
-      const now = new Date();
-      const difference = targetDate.getTime() - now.getTime();
+  //   const interval = setInterval(() => {
+  //     const now = new Date();
+  //     const difference = targetDate.getTime() - now.getTime();
 
-      if (difference <= 0) {
-        clearInterval(interval);
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      } else {
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((difference / (1000 * 60)) % 60);
-        const seconds = Math.floor((difference / 1000) % 60);
-        setTimeLeft({ days, hours, minutes, seconds });
-      }
-    }, 1000);
+  //     if (difference <= 0) {
+  //       clearInterval(interval);
+  //       setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  //     } else {
+  //       const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+  //       const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+  //       const minutes = Math.floor((difference / (1000 * 60)) % 60);
+  //       const seconds = Math.floor((difference / 1000) % 60);
+  //       setTimeLeft({ days, hours, minutes, seconds });
+  //     }
+  //   }, 1000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-background-dark text-white px-4 relative overflow-hidden">
@@ -51,7 +51,7 @@ export default function ComingSoon() {
         </p>
 
         {/* Countdown Timer */}
-        <div className="flex justify-center gap-4 sm:gap-6 mb-10">
+        {/* <div className="flex justify-center gap-4 sm:gap-6 mb-10">
           {Object.entries(timeLeft).map(([unit, value]) => (
             <div
               key={unit}
@@ -63,7 +63,7 @@ export default function ComingSoon() {
               <span className="text-xs uppercase text-gray-400">{unit}</span>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
 
       {/* Background orbs for depth */}
