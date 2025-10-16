@@ -29,7 +29,7 @@ export default function Footer() {
         </div>
 
         {/* Social Icons */}
-        <div className="flex justify-center gap-6">
+        {/* <div className="flex justify-center gap-6">
           <Link
             href="https://x.com"
             className="hover:text-primary transition-colors"
@@ -51,7 +51,7 @@ export default function Footer() {
           >
             <Instagram className="w-5 h-5" />
           </Link>
-        </div>
+        </div> */}
 
         {/* Copyright */}
         <p className="text-xs text-gray-500">
