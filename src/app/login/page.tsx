@@ -25,7 +25,7 @@ export default function AuthForm() {
           Log In / Sign Up
         </h2>
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Name */}
+          {/*Name*/}
           <div>
             <label htmlFor="name" className="block text-sm font-medium mb-1">
               Name
