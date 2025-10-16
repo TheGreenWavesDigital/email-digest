@@ -27,7 +27,9 @@ export default function Header() {
         {/* Logo */}
         <div className="flex items-center gap-2">
           <Box className="w-6 h-6 text-primary" />
-          <h1 className="text-lg font-semibold text-white">Daily Digest</h1>
+          <Link href={"/"}>
+            <h1 className="text-lg font-semibold text-white">Daily Digest</h1>
+          </Link>
         </div>
 
         {/* Desktop Nav */}
