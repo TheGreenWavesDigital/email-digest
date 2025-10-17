@@ -74,12 +74,6 @@ export default function AboutUsPage() {
             />
           </div>
         </section>
-
-        {/* Closing Section */}
-        <p className="text-[#7D8EA5] text-sm mt-16">
-          © {new Date().getFullYear()} Email Digest. Built for professionals who
-          value clarity, control, and privacy.
-        </p>
       </div>
     </main>
   );

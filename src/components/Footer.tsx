@@ -61,7 +61,8 @@ export default function Footer() {
 
         {/* Copyright */}
         <p className="text-xs text-[#7D8EA5]">
-          © {new Date().getFullYear()} Email Digest. All rights reserved.
+          © {new Date().getFullYear()} Email Digest. Built for professionals who
+          value clarity, control, and privacy.
         </p>
       </div>
     </footer>

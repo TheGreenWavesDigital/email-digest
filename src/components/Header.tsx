@@ -28,16 +28,13 @@ export default function Header() {
           <Box className="w-6 h-6 text-[#5C8AAC]" />
           <Link href={"/"}>
             <h1 className="text-lg font-semibold text-[#C7D8E7] tracking-wide">
-              Daily Digest
+              Email Digest
             </h1>
           </Link>
         </div>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6 text-sm">
-          <Link href="/" className="hover:text-[#5C8AAC] transition-colors">
-            Home
-          </Link>
           <Link
             href="/about-us"
             className="hover:text-[#5C8AAC] transition-colors"
@@ -45,10 +42,16 @@ export default function Header() {
             About Us
           </Link>
           <Link
+            href="/buy-credits"
+            className="hover:text-[#5C8AAC] transition-colors"
+          >
+            Pricing
+          </Link>
+          <Link
             href="/contact"
             className="hover:text-[#5C8AAC] transition-colors"
           >
-            Support
+            Contact
           </Link>
 
           <div className="flex items-center gap-3 ml-4">
@@ -93,13 +96,6 @@ export default function Header() {
 
           <nav className="flex flex-col items-center gap-5 text-lg text-[#C7D8E7]">
             <Link
-              href="/"
-              onClick={handleLinkClick}
-              className="hover:text-[#5C8AAC] transition-colors"
-            >
-              Home
-            </Link>
-            <Link
               href="/about-us"
               onClick={handleLinkClick}
               className="hover:text-[#5C8AAC] transition-colors"
@@ -107,11 +103,18 @@ export default function Header() {
               About Us
             </Link>
             <Link
+              href="/buy-credits"
+              onClick={handleLinkClick}
+              className="hover:text-[#5C8AAC] transition-colors"
+            >
+              Pricing
+            </Link>
+            <Link
               href="/contact"
               onClick={handleLinkClick}
               className="hover:text-[#5C8AAC] transition-colors"
             >
-              Support
+              Contact
             </Link>
             <Link
               href="/register"
