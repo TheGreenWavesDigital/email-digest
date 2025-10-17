@@ -31,18 +31,14 @@ export default function RegisterPage() {
       try {
         const res = await fetch(
           "https://restcountries.com/v3.1/all?fields=cca2,name,idd",
-          {
-            cache: "no-store",
-          }
+          { cache: "no-store" }
         );
 
         if (!res.ok) throw new Error("Failed to fetch countries");
 
         const data = await res.json();
 
-        // Ensure it's an array before proceeding
         if (!Array.isArray(data)) {
-          console.error("Unexpected response:", data);
           setCountries([]);
           return;
         }
@@ -65,7 +61,6 @@ export default function RegisterPage() {
 
         setCountries(valid);
 
-        // Default to Lebanon (+961)
         const defaultCountry = valid.find((c) => c.cca2 === "LB");
         if (defaultCountry) {
           setFormData((prev) => ({
@@ -93,19 +88,20 @@ export default function RegisterPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
-    // TODO: Connect to your backend / API route here
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-background-dark px-6 py-12 text-white">
-      <div className="w-full max-w-md space-y-8">
+    <main className="flex min-h-screen items-center justify-center bg-[#050B1F] px-6 py-12 text-[#C7D8E7]">
+      <div className="w-full max-w-md space-y-8 bg-[#0A1533] border border-[#122E76]/40 rounded-2xl shadow-lg shadow-[#122E76]/20 p-8">
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold">Create Your Account</h2>
-          <p className="mt-2 text-sm text-gray-400">
+          <h2 className="text-3xl font-extrabold text-[#C7D8E7]">
+            Create Your Account
+          </h2>
+          <p className="mt-2 text-sm text-[#A9BCCC]">
             Or{" "}
             <a
               href="#"
-              className="font-medium text-primary hover:text-primary/80"
+              className="font-medium text-[#5C8AAC] hover:text-[#122E76] transition-colors"
             >
               start your 14-day free trial
             </a>
@@ -116,7 +112,10 @@ export default function RegisterPage() {
         <form onSubmit={handleSubmit} className="mt-8 space-y-5">
           {/* Phone Number */}
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="phone"
+              className="block text-sm font-medium text-[#A9BCCC] mb-1"
+            >
               Phone Number
             </label>
             <div className="flex">
@@ -125,7 +124,7 @@ export default function RegisterPage() {
                 value={formData.countryCode}
                 onChange={handleChange}
                 disabled={loading}
-                className="rounded-l-md bg-gray-900 border border-gray-700 text-gray-100 px-3 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary w-[150px] overflow-hidden text-ellipsis"
+                className="rounded-l-md bg-[#050B1F] border border-[#122E76]/40 text-[#C7D8E7] px-3 py-3 w-[150px] overflow-hidden text-ellipsis focus:outline-none focus:ring-2 focus:ring-[#5C8AAC]"
               >
                 {loading ? (
                   <option>Loading...</option>
@@ -146,14 +145,17 @@ export default function RegisterPage() {
                 required
                 value={formData.phone}
                 onChange={handleChange}
-                className="flex-1 rounded-r-md bg-gray-900 border border-l-0 border-gray-700 px-3 py-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                className="flex-1 rounded-r-md bg-[#050B1F] border border-l-0 border-[#122E76]/40 px-3 py-3 text-[#C7D8E7] placeholder-[#7D8EA5] focus:outline-none focus:ring-2 focus:ring-[#5C8AAC]"
               />
             </div>
           </div>
 
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-[#A9BCCC] mb-1"
+            >
               Email Address
             </label>
             <input
@@ -164,7 +166,7 @@ export default function RegisterPage() {
               required
               value={formData.email}
               onChange={handleChange}
-              className="w-full rounded-md bg-gray-900 border border-gray-700 px-3 py-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              className="w-full rounded-md bg-[#050B1F] border border-[#122E76]/40 px-3 py-3 text-[#C7D8E7] placeholder-[#7D8EA5] focus:outline-none focus:ring-2 focus:ring-[#5C8AAC]"
             />
           </div>
 
@@ -172,7 +174,7 @@ export default function RegisterPage() {
           <div>
             <label
               htmlFor="firstName"
-              className="block text-sm font-medium mb-1"
+              className="block text-sm font-medium text-[#A9BCCC] mb-1"
             >
               First Name
             </label>
@@ -184,7 +186,7 @@ export default function RegisterPage() {
               required
               value={formData.firstName}
               onChange={handleChange}
-              className="w-full rounded-md bg-gray-900 border border-gray-700 px-3 py-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              className="w-full rounded-md bg-[#050B1F] border border-[#122E76]/40 px-3 py-3 text-[#C7D8E7] placeholder-[#7D8EA5] focus:outline-none focus:ring-2 focus:ring-[#5C8AAC]"
             />
           </div>
 
@@ -192,7 +194,7 @@ export default function RegisterPage() {
           <div>
             <label
               htmlFor="lastName"
-              className="block text-sm font-medium mb-1"
+              className="block text-sm font-medium text-[#A9BCCC] mb-1"
             >
               Last Name
             </label>
@@ -204,7 +206,7 @@ export default function RegisterPage() {
               required
               value={formData.lastName}
               onChange={handleChange}
-              className="w-full rounded-md bg-gray-900 border border-gray-700 px-3 py-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              className="w-full rounded-md bg-[#050B1F] border border-[#122E76]/40 px-3 py-3 text-[#C7D8E7] placeholder-[#7D8EA5] focus:outline-none focus:ring-2 focus:ring-[#5C8AAC]"
             />
           </div>
 
@@ -212,7 +214,7 @@ export default function RegisterPage() {
           <div>
             <button
               type="submit"
-              className="cursor-pointer w-full py-3 px-4 rounded-md text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background-dark transition"
+              className="w-full py-3 px-4 rounded-md font-semibold text-[#050B1F] bg-[#5C8AAC] hover:bg-[#122E76] hover:text-[#C7D8E7] transition-all duration-300 shadow-md shadow-[#5C8AAC]/30 hover:shadow-[#122E76]/40"
             >
               Sign Up
             </button>
@@ -220,11 +222,11 @@ export default function RegisterPage() {
         </form>
 
         {/* Footer */}
-        <div className="text-sm text-center">
-          <span className="text-gray-400">Already have an account? </span>
+        <div className="text-sm text-center mt-4">
+          <span className="text-[#A9BCCC]">Already have an account? </span>
           <Link
             href="/login"
-            className="font-medium text-primary hover:text-primary/80"
+            className="font-medium text-[#5C8AAC] hover:text-[#122E76] transition-colors"
           >
             Log In
           </Link>

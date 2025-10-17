@@ -28,19 +28,18 @@ export default function ContactPage() {
     setStatus("success");
     setTimeout(() => setStatus("idle"), 3000);
 
-    // Later, connect this to an API (Resend / EmailJS / backend)
     console.log("Message sent:", formData);
     setFormData({ name: "", email: "", message: "" });
   };
 
   return (
-    <main className="min-h-screen bg-[#0b0d0f] text-gray-200 flex flex-col items-center px-6 py-20">
+    <main className="min-h-screen bg-[#050B1F] text-[#C7D8E7] flex flex-col items-center px-6 py-20">
       <div className="max-w-2xl w-full text-center">
         {/* Title */}
-        <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-[#C7D8E7] mb-3">
           Contact Us
         </h1>
-        <p className="text-gray-400 mb-10">
+        <p className="text-[#A9BCCC] mb-10">
           Have questions or feedback? We’d love to hear from you. Fill out the
           form below and we’ll get back to you shortly.
         </p>
@@ -48,18 +47,18 @@ export default function ContactPage() {
         {/* Form */}
         <form
           onSubmit={handleSubmit}
-          className="bg-[#111317] border border-gray-800 rounded-2xl p-8 shadow-lg shadow-blue-900/10 text-left space-y-6"
+          className="bg-[#0A1533] border border-[#122E76]/40 rounded-2xl p-8 shadow-lg shadow-[#122E76]/20 text-left space-y-6"
         >
           {/* Name */}
           <div>
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-gray-300 mb-2"
+              className="block text-sm font-medium text-[#A9BCCC] mb-2"
             >
               Name
             </label>
-            <div className="flex items-center bg-[#0b0d0f] border border-gray-800 rounded-lg px-3">
-              <User className="text-gray-500 mr-3" size={18} />
+            <div className="flex items-center bg-[#050B1F] border border-[#122E76]/40 rounded-lg px-3">
+              <User className="text-[#5C8AAC] mr-3" size={18} />
               <input
                 id="name"
                 name="name"
@@ -67,7 +66,7 @@ export default function ContactPage() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Your full name"
-                className="w-full bg-transparent outline-none py-2 text-gray-200 placeholder-gray-500"
+                className="w-full bg-transparent outline-none py-2 text-[#C7D8E7] placeholder-[#7D8EA5]"
               />
             </div>
           </div>
@@ -76,12 +75,12 @@ export default function ContactPage() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-300 mb-2"
+              className="block text-sm font-medium text-[#A9BCCC] mb-2"
             >
               Email
             </label>
-            <div className="flex items-center bg-[#0b0d0f] border border-gray-800 rounded-lg px-3">
-              <Mail className="text-gray-500 mr-3" size={18} />
+            <div className="flex items-center bg-[#050B1F] border border-[#122E76]/40 rounded-lg px-3">
+              <Mail className="text-[#5C8AAC] mr-3" size={18} />
               <input
                 id="email"
                 name="email"
@@ -89,7 +88,7 @@ export default function ContactPage() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="you@example.com"
-                className="w-full bg-transparent outline-none py-2 text-gray-200 placeholder-gray-500"
+                className="w-full bg-transparent outline-none py-2 text-[#C7D8E7] placeholder-[#7D8EA5]"
               />
             </div>
           </div>
@@ -98,12 +97,12 @@ export default function ContactPage() {
           <div>
             <label
               htmlFor="message"
-              className="block text-sm font-medium text-gray-300 mb-2"
+              className="block text-sm font-medium text-[#A9BCCC] mb-2"
             >
               Message
             </label>
-            <div className="flex items-start bg-[#0b0d0f] border border-gray-800 rounded-lg px-3 py-2">
-              <MessageSquare className="text-gray-500 mr-3 mt-2" size={18} />
+            <div className="flex items-start bg-[#050B1F] border border-[#122E76]/40 rounded-lg px-3 py-2">
+              <MessageSquare className="text-[#5C8AAC] mr-3 mt-2" size={18} />
               <textarea
                 id="message"
                 name="message"
@@ -111,7 +110,7 @@ export default function ContactPage() {
                 onChange={handleChange}
                 placeholder="Write your message here..."
                 rows={5}
-                className="w-full bg-transparent outline-none text-gray-200 placeholder-gray-500 resize-none"
+                className="w-full bg-transparent outline-none text-[#C7D8E7] placeholder-[#7D8EA5] resize-none"
               />
             </div>
           </div>
@@ -119,7 +118,7 @@ export default function ContactPage() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-lg font-semibold transition-all duration-200 shadow-md shadow-blue-800/20"
+            className="w-full flex items-center justify-center gap-2 bg-[#5C8AAC] hover:bg-[#122E76] hover:text-[#C7D8E7] text-[#050B1F] py-3 rounded-lg font-semibold transition-all duration-300 shadow-md shadow-[#5C8AAC]/30 hover:shadow-[#122E76]/40"
           >
             <Send size={18} />
             Send Message
@@ -127,12 +126,12 @@ export default function ContactPage() {
 
           {/* Status Message */}
           {status === "success" && (
-            <p className="text-green-400 text-center text-sm pt-2">
+            <p className="text-[#67E38D] text-center text-sm pt-2">
               ✅ Message sent successfully!
             </p>
           )}
           {status === "error" && (
-            <p className="text-red-400 text-center text-sm pt-2">
+            <p className="text-[#E36464] text-center text-sm pt-2">
               ⚠️ Please fill in all fields before submitting.
             </p>
           )}

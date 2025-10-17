@@ -19,13 +19,19 @@ export default function AuthForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background-dark text-white px-4">
-      <div className="w-full max-w-md bg-gray-900 rounded-2xl shadow-xl p-8 space-y-6">
-        <h2 className="text-3xl font-bold text-center text-white">Log In</h2>
+    <div className="min-h-screen flex items-center justify-center bg-[#050B1F] text-[#C7D8E7] px-4">
+      <div className="w-full max-w-md bg-[#0A1533] border border-[#122E76]/40 rounded-2xl shadow-lg shadow-[#122E76]/20 p-8 space-y-6">
+        <h2 className="text-3xl font-extrabold text-center text-[#C7D8E7]">
+          Log In
+        </h2>
+
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/*Name*/}
+          {/* Name */}
           <div>
-            <label htmlFor="name" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-[#A9BCCC] mb-1"
+            >
               Name
             </label>
             <input
@@ -36,13 +42,16 @@ export default function AuthForm() {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full rounded-lg bg-background-dark border border-gray-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-gray-100"
+              className="w-full rounded-lg bg-[#050B1F] border border-[#122E76]/40 px-3 py-2 text-[#C7D8E7] placeholder-[#7D8EA5] focus:outline-none focus:ring-2 focus:ring-[#5C8AAC] focus:border-[#5C8AAC] transition-all"
             />
           </div>
 
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-[#A9BCCC] mb-1"
+            >
               Email
             </label>
             <input
@@ -53,7 +62,7 @@ export default function AuthForm() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full rounded-lg bg-background-dark border border-gray-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-gray-100"
+              className="w-full rounded-lg bg-[#050B1F] border border-[#122E76]/40 px-3 py-2 text-[#C7D8E7] placeholder-[#7D8EA5] focus:outline-none focus:ring-2 focus:ring-[#5C8AAC] focus:border-[#5C8AAC] transition-all"
             />
           </div>
 
@@ -61,7 +70,7 @@ export default function AuthForm() {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium mb-1"
+              className="block text-sm font-medium text-[#A9BCCC] mb-1"
             >
               Password
             </label>
@@ -73,24 +82,24 @@ export default function AuthForm() {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full rounded-lg bg-background-dark border border-gray-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-gray-100"
+              className="w-full rounded-lg bg-[#050B1F] border border-[#122E76]/40 px-3 py-2 text-[#C7D8E7] placeholder-[#7D8EA5] focus:outline-none focus:ring-2 focus:ring-[#5C8AAC] focus:border-[#5C8AAC] transition-all"
             />
           </div>
 
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-primary text-white font-medium py-2.5 rounded-lg hover:bg-primary/90 transition-colors"
+            className="w-full bg-[#5C8AAC] text-[#050B1F] font-semibold py-2.5 rounded-lg hover:bg-[#122E76] hover:text-[#C7D8E7] transition-all duration-300 shadow-md shadow-[#5C8AAC]/30 hover:shadow-[#122E76]/40"
           >
             Continue
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-400">
+        <p className="text-center text-sm text-[#A9BCCC]">
           Already have an account?{" "}
           <a
             href="/login"
-            className="text-primary hover:text-primary/80 underline"
+            className="text-[#5C8AAC] hover:text-[#122E76] underline transition-colors"
           >
             Log In
           </a>
