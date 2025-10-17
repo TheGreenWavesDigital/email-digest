@@ -1,0 +1,10 @@
+# Don't redirect Next.js static files or assets
+/_next/*  /_next/:splat  200
+/static/* /static/:splat 200
+/favicon.ico  /favicon.ico 200
+
+# Keep /coming-soon accessible
+/coming-soon  /coming-soon  200
+
+# Redirect everything else to Coming Soon
+/*  /coming-soon  302
