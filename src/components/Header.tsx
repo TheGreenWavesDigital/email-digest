@@ -34,7 +34,7 @@ export default function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6 text-sm">
-          {/* <Link href="/" className="hover:text-white transition-colors">
+          <Link href="/" className="hover:text-white transition-colors">
             Home
           </Link>
           <Link href="/features" className="hover:text-white transition-colors">
@@ -45,10 +45,10 @@ export default function Header() {
           </Link>
           <Link href="/support" className="hover:text-white transition-colors">
             Support
-          </Link> */}
+          </Link>
 
           <div className="flex items-center gap-3 ml-4">
-            {/* <Link
+            <Link
               href="/register"
               className="bg-primary text-white font-medium px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors"
             >
@@ -59,18 +59,18 @@ export default function Header() {
               className="bg-gray-800 text-gray-300 font-medium px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
             >
               Login
-            </Link> */}
+            </Link>
           </div>
         </nav>
 
         {/* Mobile Burger Button */}
-        {/* <button
+        <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="md:hidden text-gray-300 hover:text-white"
           aria-label="Toggle menu"
         >
           <Menu className="w-6 h-6" />
-        </button> */}
+        </button>
       </div>
 
       {/* Mobile Menu Overlay */}
@@ -90,7 +90,7 @@ export default function Header() {
 
           {/* Nav Links */}
           <nav className="flex flex-col items-center gap-5 text-lg">
-            {/* <Link
+            <Link
               href="/"
               onClick={handleLinkClick}
               className="hover:text-white transition-colors"
@@ -131,7 +131,7 @@ export default function Header() {
               className="bg-gray-800 text-gray-300 font-medium px-5 py-2 rounded-lg hover:bg-gray-700 transition-colors"
             >
               Login
-            </Link> */}
+            </Link>
           </nav>
         </div>
       )}
