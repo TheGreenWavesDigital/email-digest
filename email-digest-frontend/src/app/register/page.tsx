@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { registerUser } from "@/utils/api"; // ✅ Make sure this utility exists
+import { registerUser } from "../../utils/api";
 import { useRouter } from "next/navigation";
 
 interface Country {

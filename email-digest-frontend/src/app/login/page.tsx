@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { loginUser } from "@/utils/api";
+import { loginUser } from "../../utils/api";
 import { useRouter } from "next/navigation";
 
 export default function AuthForm() {

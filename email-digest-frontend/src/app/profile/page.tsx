@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getProfile, getCredits, logoutUser } from "@/utils/api";
+import { getProfile, getCredits, logoutUser } from "../../utils/api";
 import { Home, Inbox, Settings, Star, ArrowRight, Rocket } from "lucide-react";
 
 export default function ProfilePage() {
