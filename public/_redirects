@@ -1,6 +1,0 @@
-/_next/*  /_next/:splat  200
-/static/* /static/:splat 200
-/favicon.ico  /favicon.ico 200
-
-/coming-soon  /coming-soon  200
-/*  /coming-soon  302

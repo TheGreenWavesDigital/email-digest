@@ -1,57 +1,91 @@
 "use client";
-import React from "react";
-import {
-  User,
-  Home,
-  Inbox,
-  Lock,
-  Settings,
-  Star,
-  ArrowRight,
-  Rocket,
-} from "lucide-react";
+
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { getProfile, getCredits, logoutUser } from "../../utils/api";
+import { Home, Inbox, Settings, Star, ArrowRight, Rocket } from "lucide-react";
 
 export default function ProfilePage() {
-  const creditsUsed = 600;
-  const totalCredits = 1000;
-  const percent = (creditsUsed / totalCredits) * 100;
+  const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+  const [credits, setCredits] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        router.push("/login");
+        return;
+      }
+
+      const userResponse = await getProfile();
+      if (userResponse?.success) {
+        setUser(userResponse.user);
+      } else {
+        router.push("/login");
+        return;
+      }
+
+      const creditsResponse = await getCredits();
+      if (creditsResponse?.success) {
+        setCredits(creditsResponse.credits);
+      }
+
+      setLoading(false);
+    }
+
+    fetchData();
+  }, [router]);
+
+  const handleLogout = async () => {
+    await logoutUser();
+    router.push("/login");
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-[#050B1F] text-[#C7D8E7]">
+        Loading...
+      </div>
+    );
+  }
+
+  const totalCredits = 1000; // Example (can be dynamic from DB)
+  const percent = (credits / totalCredits) * 100;
 
   return (
     <div className="min-h-screen flex bg-[#050B1F] text-[#C7D8E7]">
       {/* Sidebar */}
       <aside className="w-72 border-r border-[#122E76]/40 p-6 flex flex-col">
-        <div className="flex items-center gap-3 mb-10">
-          <img
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfVGXcgQHTdw9r2SdUPGAiY8C9Xo1U-TGoqjOjG2_O8mSe4RyjgbNId_hEr2DvDMh3WFBKhZh0cpXp0EUVn486wM_c_RGi-puqgnQCc62Bz6huqB9cMFBS-y7Ij5N_dCEih4Rr3J9zPs4CWLvKcn6sR0oeT8g4ratCeBB9wLdIuqYo0R-fbiz9EqxwtE7SWsvuPEjLVRhPlqpat-7ufAZ9KSlzVmiiiyy6Q9iD69RloZQaR0Qk8CT7H2dO0kQpWpVKTX0_0Pxuc7c"
-            alt="User Avatar"
-            className="w-12 h-12 rounded-full object-cover"
-          />
-          <div>
-            <h1 className="font-bold text-[#C7D8E7] text-lg">Sophia</h1>
-            <p className="text-sm text-[#A9BCCC]">Personal</p>
-          </div>
+        <div className="mb-10">
+          <h1 className="font-bold text-[#C7D8E7] text-lg">
+            {user.firstName} {user.lastName}
+          </h1>
+          <p className="text-sm text-[#A9BCCC]">{user.email}</p>
         </div>
 
         <nav className="space-y-2">
           <a
             className="flex items-center gap-3 text-[#A9BCCC] hover:text-[#5C8AAC] transition-colors"
-            href="#"
+            href="/"
           >
             <Home size={20} /> Home
           </a>
           <a
             className="flex items-center gap-3 text-[#A9BCCC] hover:text-[#5C8AAC] transition-colors"
-            href="#"
+            href="/inbox"
           >
             <Inbox size={20} /> Inbox
           </a>
-          <a
-            className="flex items-center gap-3 text-[#C7D8E7] font-semibold bg-[#5C8AAC]/10 px-3 py-2 rounded-lg border border-[#122E76]/40"
-            href="#"
-          >
-            <User size={20} /> Profile
-          </a>
         </nav>
+
+        <button
+          onClick={handleLogout}
+          className="mt-auto text-sm text-[#A9BCCC] hover:text-red-400 transition-colors"
+        >
+          Logout
+        </button>
       </aside>
 
       {/* Main Content */}
@@ -59,19 +93,16 @@ export default function ProfilePage() {
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold mb-8 text-[#C7D8E7]">Profile</h1>
 
-          {/* Profile Card */}
-          <div className="flex items-center gap-6 p-6 bg-[#0A1533] border border-[#122E76]/40 rounded-2xl mb-8 shadow-md shadow-[#122E76]/20">
-            <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuASZjQ-5VITd60skpRKO1LS0-txm6m_kDWheThELxVQGggPNwzr41yHVQW-G6yEpkKB0i85bOEXhT9SzJHMkBTX1jTtC83EiRrkBQQY7MZnFlrKd7UgPxB52xJdsUE6sWzaWkMe9f4QLH8kBG-0GKcd3ce1azfgPI2eVbmGEyAC1x6lMJHfFxhNuAW0YxwDAvJNUFIeEs6HBFTjQp5n2ALN-I3ALhqQN7IB-QFxE8S3yrUUMU9XXHVgPFaHcqutIWfXsGC9GflJcww"
-              alt="Profile"
-              className="w-24 h-24 rounded-full object-cover"
-            />
-            <div>
-              <h2 className="text-2xl font-bold text-[#C7D8E7]">
-                Sophia Miller
-              </h2>
-              <p className="text-sm text-[#A9BCCC]">sophia.miller@email.com</p>
-            </div>
+          {/* Profile Info */}
+          <div className="p-6 bg-[#0A1533] border border-[#122E76]/40 rounded-2xl mb-8 shadow-md shadow-[#122E76]/20">
+            <h2 className="text-xl font-bold text-[#C7D8E7]">
+              Account Information
+            </h2>
+            <p className="text-sm text-[#A9BCCC] mt-2">
+              Name: {user.firstName} {user.lastName}
+            </p>
+            <p className="text-sm text-[#A9BCCC]">Email: {user.email}</p>
+            <p className="text-sm text-[#A9BCCC]">Handler: {user.handler}</p>
           </div>
 
           {/* Settings */}
@@ -83,11 +114,6 @@ export default function ProfilePage() {
                 title="Preferences"
                 desc="Manage your email preferences"
               />
-              <Card
-                icon={<Lock />}
-                title="Password"
-                desc="Change your password"
-              />
             </div>
           </section>
 
@@ -95,24 +121,26 @@ export default function ProfilePage() {
           <section className="mb-10">
             <h3 className="text-xl font-bold mb-4 text-[#C7D8E7]">Plan</h3>
             <div className="space-y-4">
-              <Card icon={<Star />} title="Free" desc="Current plan: Free" />
+              <Card
+                icon={<Star />}
+                title="Free Plan"
+                desc="You are currently on the free plan."
+              />
               <Card
                 icon={<Rocket />}
-                title="Upgrade"
-                desc="Upgrade to a paid plan"
+                title="Upgrade Plan"
+                desc="Upgrade to get more features."
               />
             </div>
           </section>
 
-          {/* Credits Used */}
+          {/* Credits */}
           <section>
-            <h3 className="text-xl font-bold mb-4 text-[#C7D8E7]">
-              Credits Used
-            </h3>
+            <h3 className="text-xl font-bold mb-4 text-[#C7D8E7]">Credits</h3>
             <div className="p-6 bg-[#0A1533] border border-[#122E76]/40 rounded-2xl shadow-md shadow-[#122E76]/20">
               <div className="flex justify-between items-center mb-2">
                 <p className="text-sm font-medium text-[#A9BCCC]">
-                  Credits Used
+                  Credits Remaining
                 </p>
                 <p className="text-sm font-medium text-[#5C8AAC]">
                   {percent.toFixed(0)}%
@@ -125,7 +153,7 @@ export default function ProfilePage() {
                 ></div>
               </div>
               <p className="text-sm text-[#7D8EA5] mt-2">
-                {creditsUsed} / {totalCredits}
+                {credits} / {totalCredits}
               </p>
             </div>
           </section>
@@ -146,10 +174,7 @@ function Card({
   desc: string;
 }) {
   return (
-    <a
-      href="#"
-      className="flex items-center justify-between p-4 rounded-2xl bg-[#0A1533] border border-[#122E76]/40 hover:border-[#5C8AAC] hover:bg-[#122E76]/10 transition-all duration-300 shadow-sm hover:shadow-[#5C8AAC]/20"
-    >
+    <div className="flex items-center justify-between p-4 rounded-2xl bg-[#0A1533] border border-[#122E76]/40 hover:border-[#5C8AAC] hover:bg-[#122E76]/10 transition-all duration-300 shadow-sm hover:shadow-[#5C8AAC]/20">
       <div className="flex items-center gap-4">
         <div className="text-[#5C8AAC] bg-[#5C8AAC]/10 p-3 rounded-lg">
           {icon}
@@ -160,6 +185,6 @@ function Card({
         </div>
       </div>
       <ArrowRight className="text-[#7D8EA5]" size={18} />
-    </a>
+    </div>
   );
 }

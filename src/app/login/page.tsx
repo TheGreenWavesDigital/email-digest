@@ -1,20 +1,38 @@
 "use client";
 
 import React, { useState } from "react";
+import { loginUser } from "../../utils/api";
+import { useRouter } from "next/navigation";
 
 export default function AuthForm() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
+    setLoading(true);
+    setError("");
+
+    const response = await loginUser(formData);
+
+    if (response.success) {
+      // ✅ Token is already stored in localStorage by loginUser()
+      router.push("/profile"); // redirect after successful login
+    } else {
+      setError(response.error || "Login failed. Please try again.");
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -23,6 +41,10 @@ export default function AuthForm() {
         <h2 className="text-3xl font-extrabold text-center text-[#C7D8E7]">
           Log In
         </h2>
+
+        {error && (
+          <p className="text-red-500 text-center text-sm mb-2">{error}</p>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Email */}
@@ -68,9 +90,10 @@ export default function AuthForm() {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-[#5C8AAC] text-[#050B1F] font-semibold py-2.5 rounded-lg hover:bg-[#122E76] hover:text-[#C7D8E7] transition-all duration-300 shadow-md shadow-[#5C8AAC]/30 hover:shadow-[#122E76]/40"
+            disabled={loading}
+            className="w-full bg-[#5C8AAC] text-[#050B1F] font-semibold py-2.5 rounded-lg hover:bg-[#122E76] hover:text-[#C7D8E7] transition-all duration-300 shadow-md shadow-[#5C8AAC]/30 hover:shadow-[#122E76]/40 disabled:opacity-50"
           >
-            Continue
+            {loading ? "Logging in..." : "Continue"}
           </button>
         </form>
 
