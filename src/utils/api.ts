@@ -1,6 +1,6 @@
 // src/utils/api.ts
 
-const API_BASE = "https://email-digest-api.thegreenwavesdigital.workers.dev"; // change to your actual URL
+const API_BASE = "https://email-digest-api.thegreenwavesdigital.workers.dev";
 
 // ✅ Helper to get token from localStorage
 function getToken() {
@@ -35,9 +35,14 @@ export async function loginUser(data: { email: string; password: string }) {
   });
   const result = await res.json();
 
-  if (result.token) {
+  if (result.success && result.token) {
+    // Store token & user for persistence
     localStorage.setItem("token", result.token);
+    if (result.user) {
+      localStorage.setItem("user", JSON.stringify(result.user));
+    }
   }
+
   return result;
 }
 
@@ -79,4 +84,37 @@ export async function logoutUser() {
   localStorage.removeItem("token");
 
   return res.json();
+}
+
+// ✅ Update Profile API
+export async function updateProfile(data: {
+  firstName: string;
+  lastName: string;
+  phone: string;
+}) {
+  const token = getToken();
+  if (!token) return { error: "Not authenticated" };
+
+  try {
+    const res = await fetch(`${API_BASE}/user/update-profile`, {
+      method: "PUT", // 🔄 Make sure your backend uses PUT or POST accordingly
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+
+    // ✅ If profile was successfully updated, update the local user data
+    if (result.success && result.user) {
+      localStorage.setItem("user", JSON.stringify(result.user));
+    }
+
+    return result;
+  } catch (error) {
+    console.error("Update profile error:", error);
+    return { error: "Failed to update profile" };
+  }
 }

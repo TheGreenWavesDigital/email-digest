@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getProfile, getCredits, logoutUser } from "../../utils/api";
 import { Home, Inbox, Settings, Star, ArrowRight, Rocket } from "lucide-react";
+import Link from "next/link";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -109,11 +110,13 @@ export default function ProfilePage() {
           <section className="mb-10">
             <h3 className="text-xl font-bold mb-4 text-[#C7D8E7]">Settings</h3>
             <div className="space-y-4">
-              <Card
-                icon={<Settings />}
-                title="Preferences"
-                desc="Manage your email preferences"
-              />
+              <Link href={"/update-profile"}>
+                <Card
+                  icon={<Settings />}
+                  title="Preferences"
+                  desc="Manage your email preferences"
+                />
+              </Link>
             </div>
           </section>
 
