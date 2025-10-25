@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getProfile, getCredits, logoutUser } from "../../utils/api";
+import { getProfile, getCredits, logoutUser } from "../../../utils/api";
+import EmailList from "../../../components/EmailList";
 import { Home, Inbox, Settings, Star, ArrowRight, Rocket } from "lucide-react";
 import Link from "next/link";
 
@@ -57,38 +58,6 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen flex bg-[#050B1F] text-[#C7D8E7]">
-      {/* Sidebar */}
-      <aside className="w-72 border-r border-[#122E76]/40 p-6 flex flex-col">
-        <div className="mb-10">
-          <h1 className="font-bold text-[#C7D8E7] text-lg">
-            {user.firstName} {user.lastName}
-          </h1>
-          <p className="text-sm text-[#A9BCCC]">{user.email}</p>
-        </div>
-
-        <nav className="space-y-2">
-          <a
-            className="flex items-center gap-3 text-[#A9BCCC] hover:text-[#5C8AAC] transition-colors"
-            href="/"
-          >
-            <Home size={20} /> Home
-          </a>
-          <a
-            className="flex items-center gap-3 text-[#A9BCCC] hover:text-[#5C8AAC] transition-colors"
-            href="/inbox"
-          >
-            <Inbox size={20} /> Inbox
-          </a>
-        </nav>
-
-        <button
-          onClick={handleLogout}
-          className="mt-auto text-sm text-[#A9BCCC] hover:text-red-400 transition-colors"
-        >
-          Logout
-        </button>
-      </aside>
-
       {/* Main Content */}
       <main className="flex-1 p-10">
         <div className="max-w-4xl mx-auto">
@@ -120,23 +89,6 @@ export default function ProfilePage() {
             </div>
           </section>
 
-          {/* Plan */}
-          <section className="mb-10">
-            <h3 className="text-xl font-bold mb-4 text-[#C7D8E7]">Plan</h3>
-            <div className="space-y-4">
-              <Card
-                icon={<Star />}
-                title="Free Plan"
-                desc="You are currently on the free plan."
-              />
-              <Card
-                icon={<Rocket />}
-                title="Upgrade Plan"
-                desc="Upgrade to get more features."
-              />
-            </div>
-          </section>
-
           {/* Credits */}
           <section>
             <h3 className="text-xl font-bold mb-4 text-[#C7D8E7]">Credits</h3>
@@ -161,6 +113,14 @@ export default function ProfilePage() {
             </div>
           </section>
         </div>
+        <section className="mt-12">
+          <div className="max-w-4xl mx-auto">
+            <h3 className="text-xl font-bold mb-4 text-[#C7D8E7]">
+              Your Emails
+            </h3>
+            <EmailList />
+          </div>
+        </section>
       </main>
     </div>
   );

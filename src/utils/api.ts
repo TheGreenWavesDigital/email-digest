@@ -118,3 +118,31 @@ export async function updateProfile(data: {
     return { error: "Failed to update profile" };
   }
 }
+
+export async function getEmails(page = 1, limit = 10) {
+  const token = localStorage.getItem("token");
+  if (!token) return null;
+
+  const res = await fetch(`${API_BASE}/emails?page=${page}&limit=${limit}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.json();
+}
+
+export async function deleteEmail(id: string) {
+  const token = localStorage.getItem("token");
+  if (!token) return null;
+
+  const res = await fetch(`${API_BASE}/emails/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.json();
+}
