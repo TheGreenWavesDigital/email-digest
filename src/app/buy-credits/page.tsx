@@ -99,12 +99,7 @@ export default function BuyCreditsPage() {
         {/* Title */}
         <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
           Top Up Your Credits{" "}
-          <span className="text-[#5C8AAC]">(Local Mode)</span>
         </h1>
-        <p className="text-[#A9BCCC] text-base md:text-lg mb-10">
-          Connected to <code>{API_BASE}</code>
-        </p>
-
         {/* Status Message */}
         {statusMessage && (
           <div className="bg-[#0A1533] border border-[#5C8AAC]/30 text-[#C7D8E7] rounded-lg py-3 px-4 mb-6">
