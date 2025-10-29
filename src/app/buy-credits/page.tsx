@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 // ✅ Local API endpoint ONLY for testing:
-const API_BASE = "http://127.0.0.1:8787";
+const API_BASE = "https://email-digest-api.thegreenwavesdigital.workers.dev";
 
 type Pkg = { credits: 100 | 500 | 1000; price: number; description: string };
 
