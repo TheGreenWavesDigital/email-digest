@@ -13,7 +13,6 @@ function getToken() {
 // ✅ Register API
 export async function registerUser(data: {
   email: string;
-  phone: string;
   firstName: string;
   lastName: string;
   password: string;

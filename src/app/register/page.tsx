@@ -33,45 +33,6 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // ✅ Fetch countries
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const res = await fetch(
-          "https://restcountries.com/v3.1/all?fields=cca2,name,idd"
-        );
-        const data = await res.json();
-
-        const validCountries = data
-          .filter(
-            (c: any) =>
-              c.idd?.root && Array.isArray(c.idd.suffixes) && c.idd.suffixes[0]
-          )
-          .map((c: any) => ({
-            cca2: c.cca2,
-            name: c.name.common,
-            dialCode: `${c.idd.root}${c.idd.suffixes[0]}`,
-          }))
-          .sort((a: Country, b: Country) => a.name.localeCompare(b.name));
-
-        setCountries(validCountries);
-        const defaultCountry = validCountries.find((c: any) => c.cca2 === "LB");
-        if (defaultCountry) {
-          setFormData((prev) => ({
-            ...prev,
-            countryCode: defaultCountry.dialCode,
-          }));
-        }
-      } catch (error) {
-        console.error("Error loading countries:", error);
-      } finally {
-        setLoadingCountries(false);
-      }
-    };
-
-    fetchCountries();
-  }, []);
-
   // ✅ Handle changes
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -86,12 +47,9 @@ export default function RegisterPage() {
     setError("");
     setSuccess("");
 
-    const fullPhone = `${formData.countryCode}${formData.phone}`;
-
     const response = await registerUser({
       email: formData.email,
       password: formData.password,
-      phone: fullPhone,
       firstName: formData.firstName,
       lastName: formData.lastName,
     });
@@ -117,38 +75,6 @@ export default function RegisterPage() {
         {success && <p className="text-green-400 text-center">{success}</p>}
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-5">
-          {/* Phone */}
-          <div>
-            <label className="block text-sm mb-1">Phone Number</label>
-            <div className="flex">
-              <select
-                name="countryCode"
-                value={formData.countryCode}
-                onChange={handleChange}
-                className="rounded-l-md bg-[#050B1F] border border-[#122E76]/40 px-3 py-3 w-[150px] focus:ring-2 focus:ring-[#5C8AAC]"
-              >
-                {loadingCountries ? (
-                  <option>Loading...</option>
-                ) : (
-                  countries.map((country) => (
-                    <option key={country.cca2} value={country.dialCode}>
-                      {country.cca2} ({country.dialCode})
-                    </option>
-                  ))
-                )}
-              </select>
-              <input
-                name="phone"
-                type="tel"
-                placeholder="Enter phone number"
-                value={formData.phone}
-                onChange={handleChange}
-                className="flex-1 rounded-r-md bg-[#050B1F] border border-l-0 border-[#122E76]/40 px-3 py-3 focus:ring-2 focus:ring-[#5C8AAC]"
-                required
-              />
-            </div>
-          </div>
-
           {/* First Name */}
           <div>
             <label className="block text-sm mb-1">First Name</label>
