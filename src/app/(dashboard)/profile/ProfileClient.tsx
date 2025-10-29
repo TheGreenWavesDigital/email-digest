@@ -115,30 +115,37 @@ export default function ProfilePage() {
 
           {/* Credits */}
           <section>
-            <h3 className="text-xl font-bold mb-4">Credits</h3>
+            <h3 className="text-xl font-bold mb-4 text-[#C7D8E7]">Credits</h3>
+
             <div className="p-6 bg-[#0A1533] border border-[#122E76]/40 rounded-2xl shadow-md shadow-[#122E76]/20">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <p className="text-sm font-medium">Credits Remaining</p>
-                  <span className="text-sm font-medium text-[#5C8AAC]">
+              <div className="flex items-center justify-between gap-4 mb-3">
+                {/* Left side */}
+                <div className="flex items-center gap-3">
+                  <p className="text-sm font-medium text-[#A9BCCC]">
+                    Credits Remaining
+                  </p>
+                  <p className="text-sm font-medium text-[#5C8AAC]">
                     {percent.toFixed(0)}%
-                  </span>
+                  </p>
                 </div>
-                {/* ✅ Always show Add Credits */}
+
+                {/* ✅ Button should ALWAYS show */}
                 <Link
                   href="/buy-credits"
-                  className="inline-flex items-center gap-2 bg-[#5C8AAC] hover:bg-[#122E76] hover:text-[#C7D8E7] text-[#050B1F] px-4 py-2 rounded-lg font-medium transition-all duration-300"
+                  className="inline-flex items-center gap-2 bg-[#5C8AAC] hover:bg-[#122E76] hover:text-[#C7D8E7] text-[#050B1F] px-4 py-2 rounded-lg font-medium transition-all duration-300 shadow-md shadow-[#5C8AAC]/30 hover:shadow-[#122E76]/40"
                 >
-                  <span>+ Add Credits</span>
+                  + Add Credits
                 </Link>
               </div>
 
+              {/* Progress Bar */}
               <div className="w-full bg-[#122E76]/30 rounded-full h-2.5">
                 <div
                   className="bg-[#5C8AAC] h-2.5 rounded-full"
                   style={{ width: `${percent}%` }}
                 />
               </div>
+
               <p className="text-sm text-[#7D8EA5] mt-2">
                 {credits} / {totalCredits}
               </p>
