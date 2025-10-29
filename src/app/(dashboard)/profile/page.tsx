@@ -1,5 +1,5 @@
-// app/(dashboard)/profile/page.tsx
 "use client";
+export const dynamic = "force-dynamic";
 
 import React, { useEffect, useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -16,7 +16,7 @@ export default function ProfilePage() {
   const [credits, setCredits] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
-  const totalCredits = 1000; // or make this dynamic from backend
+  const totalCredits = 1000;
   const percent = Math.max(
     0,
     Math.min(100, totalCredits ? (credits / totalCredits) * 100 : 0)
@@ -48,17 +48,13 @@ export default function ProfilePage() {
     })();
   }, [router, refetchCredits]);
 
-  // 🔁 If Stripe returned with ?topup=success, re-fetch credits
   useEffect(() => {
     const topup = searchParams.get("topup");
     if (topup === "success") {
       refetchCredits();
-      // optional: clean the query param
-      // router.replace("/profile");
     }
-  }, [searchParams, refetchCredits /* , router */]);
+  }, [searchParams, refetchCredits]);
 
-  // 🔁 Also refresh when tab regains focus (user might have paid and came back)
   useEffect(() => {
     const onVisible = () => {
       if (document.visibilityState === "visible") refetchCredits();
@@ -121,7 +117,6 @@ export default function ProfilePage() {
             <h3 className="text-xl font-bold mb-4 text-[#C7D8E7]">Credits</h3>
 
             <div className="p-6 bg-[#0A1533] border border-[#122E76]/40 rounded-2xl shadow-md shadow-[#122E76]/20">
-              {/* Top row: label + percent + CTA */}
               <div className="flex items-center justify-between gap-4 mb-3">
                 <div className="flex items-center gap-3">
                   <p className="text-sm font-medium text-[#A9BCCC]">
@@ -140,7 +135,6 @@ export default function ProfilePage() {
                 </Link>
               </div>
 
-              {/* Progress */}
               <div className="w-full bg-[#122E76]/30 rounded-full h-2.5">
                 <div
                   className="bg-[#5C8AAC] h-2.5 rounded-full"
@@ -155,7 +149,6 @@ export default function ProfilePage() {
           </section>
         </div>
 
-        {/* Emails */}
         <section className="mt-12">
           <div className="max-w-4xl mx-auto">
             <h3 className="text-xl font-bold mb-4 text-[#C7D8E7]">
