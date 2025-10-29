@@ -3,8 +3,10 @@
 import React, { useState } from "react";
 import { loginUser } from "../../utils/api";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 export default function AuthForm() {
+  const { setAuth } = useAuth();
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
@@ -26,6 +28,11 @@ export default function AuthForm() {
     const response = await loginUser(formData);
 
     if (response.success) {
+      // ✅ Extract user + token from response
+      const { user, token } = response;
+
+      // ✅ Update auth context instantly
+      setAuth(user, token);
       // ✅ Token is already stored in localStorage by loginUser()
       router.push("/profile"); // redirect after successful login
     } else {
