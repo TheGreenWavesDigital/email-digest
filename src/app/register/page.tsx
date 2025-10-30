@@ -17,12 +17,8 @@ interface Country {
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [countries, setCountries] = useState<Country[]>([]);
-  const [loadingCountries, setLoadingCountries] = useState(true);
 
   const [formData, setFormData] = useState({
-    countryCode: "+961",
-    phone: "",
     email: "",
     firstName: "",
     lastName: "",

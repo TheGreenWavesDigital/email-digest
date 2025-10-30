@@ -7,7 +7,6 @@ interface UserData {
   email: string;
   firstName: string;
   lastName: string;
-  phone: string;
   handler: string;
   credits: number;
 }
@@ -18,7 +17,6 @@ export default function UpdateProfilePage() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    phone: "",
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -35,7 +33,6 @@ export default function UpdateProfilePage() {
     setFormData({
       firstName: parsedUser.firstName,
       lastName: parsedUser.lastName,
-      phone: parsedUser.phone,
     });
   }, []);
 
@@ -122,18 +119,6 @@ export default function UpdateProfilePage() {
             <input
               name="lastName"
               value={formData.lastName}
-              onChange={handleChange}
-              required
-              className="w-full rounded-lg bg-[#050B1F] border border-[#122E76]/40 px-3 py-2 text-[#C7D8E7] placeholder-[#7D8EA5]"
-            />
-          </div>
-
-          {/* Phone */}
-          <div>
-            <label className="block text-sm text-[#A9BCCC] mb-1">Phone</label>
-            <input
-              name="phone"
-              value={formData.phone}
               onChange={handleChange}
               required
               className="w-full rounded-lg bg-[#050B1F] border border-[#122E76]/40 px-3 py-2 text-[#C7D8E7] placeholder-[#7D8EA5]"

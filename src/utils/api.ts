@@ -89,7 +89,6 @@ export async function logoutUser() {
 export async function updateProfile(data: {
   firstName: string;
   lastName: string;
-  phone: string;
 }) {
   const token = getToken();
   if (!token) return { error: "Not authenticated" };
