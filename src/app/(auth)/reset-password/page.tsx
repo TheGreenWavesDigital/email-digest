@@ -1,17 +1,35 @@
 "use client";
-import React, { useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { resetPassword } from "../../../utils/api";
 import { Lock } from "lucide-react";
 
 export default function ResetPasswordPage() {
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const token = searchParams.get("token");
 
+  const [token, setToken] = useState<string | null>(null);
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  // ✅ Safe URL token extraction (client-only)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      const t = url.searchParams.get("token");
+      setToken(t);
+      setLoaded(true);
+    }
+  }, []);
+
+  if (!loaded) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-[#050B1F] text-[#C7D8E7]">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   if (!token) {
     return (
