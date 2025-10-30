@@ -113,6 +113,15 @@ export default function AuthForm() {
             Get Started
           </a>
         </p>
+        <p className="text-center text-sm text-[#A9BCCC]">
+          Forgot your password ?{" "}
+          <a
+            href="/forgot-password"
+            className="text-[#5C8AAC] hover:text-[#122E76] underline transition-colors"
+          >
+            Click Here
+          </a>
+        </p>
       </div>
     </div>
   );
