@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { getEmails, deleteEmail, getProfile } from "../../../utils/api";
+import { Star, StarOff, Trash2 } from "lucide-react";
 
 interface EmailItem {
   id: string;
@@ -13,13 +14,14 @@ interface EmailItem {
 
 export default function InboxPage() {
   const [emails, setEmails] = useState<EmailItem[]>([]);
+  const [starred, setStarred] = useState<string[]>([]);
   const [selectedEmail, setSelectedEmail] = useState<EmailItem | null>(null);
   const [emailContent, setEmailContent] = useState<string>("");
-  const [handler, setHandler] = useState<string | null>(null);
   const [loadingList, setLoadingList] = useState(true);
   const [loadingContent, setLoadingContent] = useState(false);
-  const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [pdfLoading, setPdfLoading] = useState(false);
+  const [handler, setHandler] = useState<string | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
   // Load handler + inbox
   useEffect(() => {
@@ -29,6 +31,7 @@ export default function InboxPage() {
 
       const res = await getEmails();
       if (res?.success) setEmails(res.emails);
+
       setLoadingList(false);
     })();
   }, []);
@@ -41,20 +44,25 @@ export default function InboxPage() {
       const html = await (await fetch(email.signedUrl)).text();
       setEmailContent(html);
     } catch {
-      setEmailContent(`<p style="color:red">Failed to load email</p>`);
+      setEmailContent(`<p class="text-red-500">Failed to load email</p>`);
     }
 
     setLoadingContent(false);
   };
 
+  const toggleStar = (id: string) => {
+    setStarred((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
   const handleDelete = async (email: EmailItem) => {
-    const res = await deleteEmail(email.id);
-    if (res?.success) {
-      setEmails((x) => x.filter((e) => e.id !== email.id));
-      if (selectedEmail?.id === email.id) {
-        setSelectedEmail(null);
-        setEmailContent("");
-      }
+    await deleteEmail(email.id);
+    setEmails((x) => x.filter((e) => e.id !== email.id));
+
+    if (selectedEmail?.id === email.id) {
+      setSelectedEmail(null);
+      setEmailContent("");
     }
   };
 
@@ -66,141 +74,115 @@ export default function InboxPage() {
     iframe.style.height = `${Math.max(600, Math.min(h, 2000))}px`;
   };
 
-  // ✅ Download via Cloudflare worker
   const downloadPDF = async () => {
     if (!handler || !selectedEmail) return;
 
     setPdfLoading(true);
-
-    const filename = selectedEmail.fileName;
-    const url = `https://email-digest-pdf.thegreenwavesdigital.workers.dev/pdf/${handler}/${filename}`;
+    const url = `https://email-digest-pdf.thegreenwavesdigital.workers.dev/pdf/${handler}/${selectedEmail.fileName}`;
 
     try {
-      // Trigger PDF generation
-      const pdfWindow = window.open(url, "_blank");
-
-      if (!pdfWindow) {
-        alert("Popup blocked! Allow pop-ups to download PDF.");
-      }
-
-      // we simulate a small wait for worker response
+      const openWin = window.open(url, "_blank");
+      if (!openWin) alert("Enable pop-ups to download PDF");
       setTimeout(() => setPdfLoading(false), 1500);
-    } catch (err) {
-      console.error(err);
-      alert("Failed to generate PDF");
+    } catch {
+      alert("PDF failed");
       setPdfLoading(false);
     }
   };
 
   return (
-    <div className="flex w-full flex-col md:flex-row gap-4 md:gap-6">
-      {/* Sidebar */}
-      <aside className="md:w-80 w-full">
-        <h2 className="font-bold text-lg mb-4">Inbox</h2>
+    <div className="w-full flex flex-col gap-6 text-[#C7D8E7]">
+      <h2 className="text-2xl font-bold tracking-tight mb-2">Inbox</h2>
 
-        {loadingList ? (
-          <p className="text-[#A9BCCC]">Loading emails...</p>
-        ) : emails.length === 0 ? (
-          <p className="text-[#A9BCCC]">No emails yet</p>
-        ) : (
-          <div className="space-y-3 max-h-[30vh] md:max-h-[calc(100vh-220px)] overflow-y-auto pr-1">
-            {emails.map((email) => {
-              const active = selectedEmail?.id === email.id;
+      {/* Email List */}
+      <div className="rounded-xl overflow-hidden border border-[#122E76]/40">
+        {loadingList
+          ? [...Array(6)].map((_, i) => (
+              <div
+                key={i}
+                className="h-12 bg-[#0A1533] animate-pulse border-b border-[#122E76]/30"
+              />
+            ))
+          : emails.map((email) => {
+              const isSelected = selectedEmail?.id === email.id;
+              const isStarred = starred.includes(email.id);
+
               return (
                 <div
                   key={email.id}
-                  className={`p-4 rounded-xl cursor-pointer transition ${
-                    active
-                      ? "bg-[#122E76]"
-                      : "bg-[#0A1533] hover:bg-[#122E76]/40"
-                  }`}
                   onClick={() => loadEmailContent(email)}
+                  className={`flex items-center gap-3 px-4 py-3 text-sm cursor-pointer border-b border-[#122E76]/30
+                transition ${
+                  isSelected ? "bg-white/10" : "hover:bg-[#122E76]/40"
+                }`}
                 >
-                  <p
-                    className={`font-medium truncate ${
-                      active ? "text-white" : "text-white"
-                    }`}
+                  {/* <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleStar(email.id);
+                    }}
+                    className="text-yellow-400"
                   >
-                    {email.fileName}
-                  </p>
-                  <p className="text-xs text-[#7D8EA5]">{email.relativeTime}</p>
+                    {isStarred ? <Star size={18} /> : <StarOff size={18} />}
+                  </button> */}
+
+                  <div className="flex-1">
+                    <p className="font-medium truncate">{email.fileName}</p>
+                    <p className="text-xs opacity-60">{email.relativeTime}</p>
+                  </div>
 
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       handleDelete(email);
                     }}
-                    className="text-red-400 hover:text-red-500 mt-2 text-xs"
+                    className="text-red-400 hover:text-red-500"
                   >
-                    Delete
+                    <Trash2 size={16} />
                   </button>
                 </div>
               );
             })}
-          </div>
-        )}
-      </aside>
+      </div>
 
-      {/* Viewer */}
-      <section className="flex-1 bg-[#0A1533] p-4 md:p-6 rounded-xl border border-[#122E76]/40">
+      {/* Preview */}
+      <div className="bg-[#0A1533] border border-[#122E76]/40 rounded-xl p-4">
         {!selectedEmail ? (
-          <p className="text-[#A9BCCC]">Select an email to preview</p>
-        ) : loadingContent ? (
-          <p className="text-[#A9BCCC]">Loading email…</p>
+          <p className="opacity-70">Select an email to preview 👆</p>
         ) : (
-          <div>
-            <div className="flex justify-end mb-2">
+          <>
+            <div className="flex justify-between mb-2 items-center text-sm">
+              <span className="font-medium">{selectedEmail.fileName}</span>
+
               <button
                 onClick={downloadPDF}
                 disabled={pdfLoading}
-                className={`px-3 py-2 text-sm rounded-md flex items-center gap-2
-    ${
-      pdfLoading
-        ? "bg-gray-500 cursor-not-allowed text-white"
-        : "bg-blue-600 hover:bg-blue-700 text-white"
-    }`}
+                className={`px-3 py-2 rounded-md flex items-center gap-2 
+                text-xs ${
+                  pdfLoading ? "bg-gray-600" : "bg-blue-600 hover:bg-blue-700"
+                }`}
               >
-                {pdfLoading ? (
-                  <>
-                    <svg
-                      className="animate-spin h-4 w-4 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                      ></path>
-                    </svg>
-                    Generating…
-                  </>
-                ) : (
-                  <>📄 Download PDF</>
-                )}
+                {pdfLoading ? "⏳ Generating…" : "📄 Download PDF"}
               </button>
             </div>
 
-            <div className="bg-white text-black rounded-lg shadow-lg">
-              <iframe
-                ref={iframeRef}
-                className="w-full rounded-lg"
-                srcDoc={emailContent}
-                onLoad={handleIframeLoad}
-              />
+            <div className="bg-white rounded-lg shadow border border-gray-300">
+              {loadingContent ? (
+                <div className="p-10 text-center text-gray-600 text-sm">
+                  Loading email…
+                </div>
+              ) : (
+                <iframe
+                  ref={iframeRef}
+                  className="w-full rounded-lg"
+                  srcDoc={emailContent}
+                  onLoad={handleIframeLoad}
+                />
+              )}
             </div>
-          </div>
+          </>
         )}
-      </section>
+      </div>
     </div>
   );
 }
